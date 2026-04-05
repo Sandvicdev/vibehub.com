@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+  
+  <!-- Playlist Bilgileri -->
+  <div class="flex flex-col md:flex-row gap-8 mb-10">
+    <!-- Kapak Resmi -->
+    <div class="md:w-1/3">
+      <% if (playlist.image) { %>
+        <img src="<%= playlist.image %>" alt="<%= playlist.name %>" class="w-full rounded-2xl shadow-lg" />
+      <% } else { %>
+        <div class="w-full aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center text-8xl">
+          🎵
+        </div>
+      <% } %>
+    </div>
+    
+    <!-- Playlist Bilgileri -->
+    <div class="md:w-2/3">
+      <h1 class="font-display font-extrabold text-3xl md:text-4xl mb-3"><%= playlist.name %></h1>
+      
+      <p class="text-muted mb-2">
+        <span class="text-primary"><%= playlist.owner %></span> tarafından
+      </p>
+      
+      <div class="flex gap-4 mb-4 text-sm">
+        <span class="text-muted">📀 <%= playlist.track_count %> şarkı</span>
+        <span class="text-muted">👥 <%= (playlist.followers || 0).toLocaleString('tr-TR') %> takipçi</span>
+        <span class="text-accent">⭐ <%= playlist.save_rate %>% save rate</span>
+      </div>
+      
+      <% if (playlist.description) { %>
+        <p class="text-gray-300 text-sm leading-relaxed"><%= playlist.description %></p>
+      <% } %>
+      
+      <div class="mt-4">
+        <a href="<%= playlist.spotify_url %>" target="_blank" class="inline-flex items-center gap-2 bg-primary hover:bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
+          <span>🎧</span> Spotify'da Aç
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Şarkı Listesi -->
+  <div class="mt-10">
+    <h2 class="font-display font-bold text-2xl mb-4">Şarkılar</h2>
+    
+    <% if (playlist.tracks && playlist.tracks.length > 0) { %>
+      <div class="bg-card border border-border rounded-xl overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-border/30">
+            <tr class="text-left text-xs text-muted">
+              <th class="px-4 py-3 w-12">#</th>
+              <th class="px-4 py-3">Şarkı</th>
+              <th class="px-4 py-3">Sanatçı</th>
+              <th class="px-4 py-3">Albüm</th>
+              <th class="px-4 py-3 w-20">Süre</th>
+              <th class="px-4 py-3 w-12"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% playlist.tracks.forEach((track, index) => { %>
+              <tr class="border-t border-border hover:bg-border/20 transition-colors">
+                <td class="px-4 py-3 text-sm text-muted"><%= index + 1 %></td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-3">
+                    <% if (track.image) { %>
+                      <img src="<%= track.image %>" alt="<%= track.name %>" class="w-10 h-10 rounded object-cover" />
+                    <% } else { %>
+                      <div class="w-10 h-10 bg-border rounded flex items-center justify-center">🎵</div>
+                    <% } %>
+                    <span class="font-medium text-sm"><%= track.name %></span>
+                  </div>
+                </td>
+                <td class="px-4 py-3 text-sm text-muted"><%= track.artists %></td>
+                <td class="px-4 py-3 text-sm text-muted"><%= track.album %></td>
+                <td class="px-4 py-3 text-sm text-muted"><%= track.duration %></td>
+                <td class="px-4 py-3">
+                  <% if (track.preview_url) { %>
+                    <audio controls class="h-8 w-20">
+                      <source src="<%= track.preview_url %>" type="audio/mpeg">
+                    </audio>
+                  <% } else if (track.spotify_url) { %>
+                    <a href="<%= track.spotify_url %>" target="_blank" class="text-primary hover:text-blue-400">🎧</a>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <div class="text-center py-12 text-muted">
+        <div class="text-5xl mb-3">🎵</div>
+        <p class="text-sm">Bu playlist'te henüz şarkı bulunmuyor veya şarkılar yüklenemedi.</p>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,77 @@
+<%- include('partials/header') %>
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <!-- BAŞLIK -->
+  <div class="flex items-center gap-4 mb-8">
+    <% if (user && user.image) { %>
+      <img src="<%= user.image %>" class="w-12 h-12 rounded-full border border-border" />
+    <% } else { %>
+      <div class="w-12 h-12 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-lg font-bold text-primary">
+        <%= user ? user.name[0].toUpperCase() : 'U' %>
+      </div>
+    <% } %>
+    <div>
+      <h1 class="font-display font-extrabold text-2xl">Playlistlerim</h1>
+      <p class="text-sm text-muted"><%= user ? user.name : '' %> · Spotify hesabından</p>
+    </div>
+  </div>
+
+  <!-- HATA -->
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-6">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <!-- PLAYLİST GRID -->
+  <% if (playlists && playlists.length > 0) { %>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <% playlists.forEach(p => { %>
+        <a href="/playlist/<%= p.id %>" class="block bg-card border border-border rounded-2xl overflow-hidden card-hover">
+
+          <!-- Kapak -->
+          <div class="relative aspect-square bg-border/30">
+            <% if (p.image) { %>
+              <img src="<%= p.image %>" alt="<%= p.name %>" class="w-full h-full object-cover" />
+            <% } else { %>
+              <div class="w-full h-full flex items-center justify-center text-5xl">🎵</div>
+            <% } %>
+            <div class="absolute top-2 right-2 bg-accent text-bg text-xs font-bold px-2 py-0.5 rounded-full">
+              <%= p.save_rate %>%
+            </div>
+          </div>
+
+          <div class="p-3">
+            <div class="font-display font-bold text-sm truncate mb-0.5"><%= p.name %></div>
+            <div class="text-xs text-muted truncate mb-2">by <%= p.owner %></div>
+
+            <!-- Save bar -->
+            <div class="h-1 bg-border rounded-full overflow-hidden mb-2">
+              <div class="h-full bg-accent rounded-full save-bar-fill" style="width: <%= p.save_rate %>%"></div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-muted">
+              <span><%= p.track_count %> şarkı</span>
+              <span class="text-primary"><%= (p.followers || 0).toLocaleString('tr-TR') %> takipçi</span>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+
+  <% } else { %>
+    <div class="text-center py-20 text-muted">
+      <div class="text-5xl mb-4">🎵</div>
+      <div class="font-display font-bold text-xl mb-2">Henüz Playlist Yok</div>
+      <p class="text-sm mb-6">Spotify'da playlist oluşturup buraya geri dön.</p>
+      <a href="https://open.spotify.com" target="_blank"
+        class="inline-flex items-center gap-2 bg-[#1DB954] hover:bg-[#1ed760] text-black text-sm font-bold px-5 py-2.5 rounded-full transition-colors">
+        Spotify'ı Aç
+      </a>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include('partials/footer') %>

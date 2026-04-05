@@ -1,0 +1,25 @@
+vibehub/
+│
+├── views/
+│   ├── partials/
+│   │   ├── header.ejs
+│   │   └── footer.ejs
+│   │
+│   ├── index.ejs
+│   ├── explore.ejs
+│   └── playlist.ejs
+│
+├── public/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│
+├── routes/
+│   └── playlist.js
+│
+├── services/
+│   └── spotify.js
+│
+├── .env
+├── app.js
+└── package.json

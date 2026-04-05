@@ -1,0 +1,92 @@
+<%- include('partials/header') %>
+
+<!-- HERO -->
+<section class="max-w-3xl mx-auto px-4 pt-20 pb-12 text-center">
+  <div class="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent text-xs px-3 py-1 rounded-full mb-6">
+    <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+    Müzik keşfine yeni boyut
+  </div>
+
+  <h1 class="font-display font-extrabold text-5xl md:text-6xl leading-tight tracking-tight mb-4">
+    Ruhuna Göre<br>Müzik Bul<span class="text-primary">.</span>
+  </h1>
+  <p class="text-muted text-lg mb-8 max-w-xl mx-auto leading-relaxed">
+    Spotify playlist'lerini vibe'ına göre keşfet, kaydet ve arkadaşlarınla paylaş.
+    Binlerce playlist, tek platformda.
+  </p>
+
+  <!-- ARAMA -->
+  <form action="/explore" method="GET" class="flex gap-2 max-w-lg mx-auto">
+    <input
+      name="q"
+      type="text"
+      placeholder="Playlist ara... (chill, sad, workout...)"
+      class="flex-1 bg-card border border-border rounded-full px-5 py-3 text-sm text-gray-200 placeholder-gray-600 outline-none focus:border-primary transition-colors"
+    />
+    <button type="submit" class="bg-primary hover:bg-blue-500 text-white px-6 py-3 rounded-full text-sm font-medium transition-colors whitespace-nowrap">
+      Ara
+    </button>
+  </form>
+</section>
+
+<!-- VIBE ETİKETLERİ -->
+<section class="max-w-3xl mx-auto px-4 mb-12">
+  <div class="flex flex-wrap gap-2 justify-center">
+    <% const moods = [
+      { label: '✦ Trending', value: 'trending', green: true },
+      { label: '😌 Chill',   value: 'chill' },
+      { label: '⚡ Hype',    value: 'hype' },
+      { label: '🌙 Gece',    value: 'night' },
+      { label: '☀️ Sabah',  value: 'morning' },
+      { label: '💔 Kırık Kalp', value: 'sad' },
+      { label: '🏋️ Antrenman', value: 'workout' },
+      { label: '🎉 Party',  value: 'party' },
+      { label: '🎧 Focus',  value: 'focus' },
+      { label: '🌊 Lo-Fi',  value: 'lofi' },
+    ]; %>
+    <% moods.forEach(m => { %>
+      <a
+        href="/explore?q=<%= m.value %>"
+        class="<%= m.green ? 'bg-accent/10 border-accent/30 text-accent' : 'bg-card border-border text-muted hover:border-primary hover:text-primary' %> border text-xs px-4 py-2 rounded-full transition-colors"
+      ><%= m.label %></a>
+    <% }) %>
+  </div>
+</section>
+
+<!-- İSTATİSTİKLER -->
+<section class="max-w-3xl mx-auto px-4 mb-16">
+  <div class="grid grid-cols-3 gap-3">
+    <div class="bg-card border border-border rounded-xl p-4 text-center">
+      <div class="font-display font-extrabold text-2xl text-primary">12.4K</div>
+      <div class="text-xs text-muted mt-1">Playlist</div>
+    </div>
+    <div class="bg-card border border-border rounded-xl p-4 text-center">
+      <div class="font-display font-extrabold text-2xl text-accent">94%</div>
+      <div class="text-xs text-muted mt-1">Ort. Save Rate</div>
+    </div>
+    <div class="bg-card border border-border rounded-xl p-4 text-center">
+      <div class="font-display font-extrabold text-2xl text-primary">3.2M</div>
+      <div class="text-xs text-muted mt-1">Dinleyici</div>
+    </div>
+  </div>
+</section>
+
+<!-- NASIL ÇALIŞIR -->
+<section class="max-w-3xl mx-auto px-4 mb-16">
+  <h2 class="font-display font-bold text-2xl mb-6 text-center">Nasıl Çalışır?</h2>
+  <div class="grid md:grid-cols-3 gap-4">
+    <% [
+      { num: '01', title: 'Vibe Seç', desc: 'Ruh halinle örtüşen bir vibe etiketi seç ya da direkt ara.' },
+      { num: '02', title: 'Keşfet', desc: 'Save rate ve takipçi sayısına göre sıralı playlist\'leri incele.' },
+      { num: '03', title: 'Spotify\'da Aç', desc: 'Beğendiğin playlist\'i Spotify\'da aç, kaydet ve dinle.' },
+    ].forEach(s => { %>
+      <div class="bg-card border border-border rounded-xl p-5">
+        <div class="font-display font-extrabold text-3xl text-primary/30 mb-3"><%= s.num %></div>
+        <div class="font-display font-bold text-base mb-1"><%= s.title %></div>
+        <div class="text-sm text-muted leading-relaxed"><%= s.desc %></div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

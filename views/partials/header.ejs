@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg:      '#0b0f19',
+            card:    '#121826',
+            border:  '#1e2840',
+            primary: '#3b82f6',
+            accent:  '#22c55e',
+            muted:   '#9ca3af',
+          },
+          fontFamily: {
+            display: ['"Syne"', 'sans-serif'],
+            body:    ['"DM Sans"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    body { background-color: #0b0f19; }
+    .save-bar-fill { transition: width 0.8s ease; }
+    .card-hover { transition: border-color 0.15s, transform 0.15s; }
+    .card-hover:hover { border-color: #3b82f6; transform: translateY(-2px); }
+  </style>
+</head>
+<body class="bg-bg text-gray-200 font-body min-h-screen">
+
+<nav class="border-b border-border sticky top-0 z-50 bg-bg/80 backdrop-blur-md">
+  <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+
+    <a href="/" class="font-display font-extrabold text-xl tracking-tight text-white">
+      Vibe<span class="text-accent">Hub</span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-6 text-sm text-muted">
+      <a href="/explore" class="hover:text-white transition-colors">Keşfet</a>
+      <a href="/explore?q=trending" class="hover:text-white transition-colors">Trendler</a>
+      <% if (user) { %>
+        <a href="/my-playlists" class="hover:text-white transition-colors">Playlistlerim</a>
+      <% } %>
+    </div>
+
+    <!-- Giriş yapmamış -->
+    <% if (!user) { %>
+      <a href="/auth/login"
+        class="flex items-center gap-2 bg-[#1DB954] hover:bg-[#1ed760] text-black text-xs font-bold px-4 py-2 rounded-full transition-colors">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 01-.277-1.215c3.809-.87 7.076-.496 9.712 1.115a.623.623 0 01.207.857zm1.223-2.722a.78.78 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.78.78 0 01-.973-.519.78.78 0 01.519-.972c3.632-1.102 8.147-.568 11.234 1.329a.78.78 0 01.257 1.071zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 11-.543-1.793c3.563-1.08 9.492-.872 13.234 1.297a.937.937 0 01-.074 1.653z"/>
+        </svg>
+        Spotify ile Giriş
+      </a>
+
+    <!-- Giriş yapılmış -->
+    <% } else { %>
+      <div class="flex items-center gap-3">
+        <!-- Profil resmi veya baş harf -->
+        <% if (user.image) { %>
+          <img src="<%= user.image %>" alt="<%= user.name %>"
+            class="w-8 h-8 rounded-full border border-border object-cover" />
+        <% } else { %>
+          <div class="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
+            <%= user.name ? user.name[0].toUpperCase() : 'U' %>
+          </div>
+        <% } %>
+
+        <span class="text-sm text-gray-300 hidden md:block">
+          <%= user.name || user.email %>
+        </span>
+
+        <a href="/auth/logout"
+          class="text-xs text-muted hover:text-white border border-border hover:border-gray-500 px-3 py-1.5 rounded-full transition-colors">
+          Çıkış
+        </a>
+      </div>
+    <% } %>
+
+  </div>
+</nav>
